@@ -1,0 +1,9 @@
+README.md
+setup.py
+coinexlib/__init__.py
+coinexlib/coinexLib.py
+coinexlib.egg-info/PKG-INFO
+coinexlib.egg-info/SOURCES.txt
+coinexlib.egg-info/dependency_links.txt
+coinexlib.egg-info/requires.txt
+coinexlib.egg-info/top_level.txt
