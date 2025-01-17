@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: coinexlib
-Version: 1.0.0
+Version: 1.1.0
 Summary: A Python library for interacting with the CoinEx API.
 Home-page: https://github.com/reza9898/coinexlib
 Author: Reza Rizvandi
@@ -14,6 +14,8 @@ Requires-Dist: requests
 
 # CoinexLib
 
+**Version: 1.1.0**
+
 `CoinexLib` is a Python library for interacting with the CoinEx API. This library simplifies the process of accessing CoinEx's cryptocurrency trading features, allowing developers to retrieve market data, manage balances, and place orders.
 
 ---
@@ -23,6 +25,8 @@ Requires-Dist: requests
 - **Account Management**: Access spot and futures account balances.
 - **Order Management**: Place, check the status of, and manage orders in spot and futures markets.
 - **Futures Management**: Adjust position leverage and retrieve current positions.
+- **User Transaction Records**: Retrieve transactions for specific user orders.
+- **Order Placement**: Place single and batch orders, including stop orders.
 
 ---
 
@@ -63,19 +67,53 @@ balance = api.get_balance()
 print(balance)
 ```
 
-### Place a Futures Order
-Place a buy or sell order in the futures market:
+### Place a Spot Order
+Place a buy or sell order in the spot market:
 
 ```python
-order = api.place_order_futures(
+order = api.place_order(
     market="BTCUSDT",
-    market_type="FUTURES",
+    market_type="SPOT",
     side="buy",
     order_type="limit",
     amount="0.1",
-    price="20000"
+    price="25000"
 )
 print(order)
+```
+
+### Place a Stop Order
+Place a buy or sell stop order in the spot market:
+
+```python
+order = api.place_stop_order(
+    market="BTCUSDT",
+    market_type="SPOT",
+    side="buy",
+    order_type="limit",
+    amount="0.1",
+    price="25000"
+)
+print(order)
+```
+
+### Batch Place Orders
+Place multiple orders in batch:
+
+```python 
+orders = [
+    {"market": "BTCUSDT", "market_type": "SPOT", "side": "buy", "order_type": "limit", "amount": "0.1", "price": "25000"},
+    {"market": "ETHUSDT", "market_type": "SPOT", "side": "sell", "order_type": "limit", "amount": "1", "price": "1800"}
+]
+batch_order = api.batch_place_orders(orders)
+print(batch_order)
+``` 
+### Query Order Status
+Query the status of a specific order:
+
+```python 
+order_status = api.query_order_status(market="BTCUSDT", order_id=123456789)
+print(order_status)
 ```
 
 ### Retrieve Futures Positions
@@ -85,6 +123,24 @@ Get the current futures positions:
 positions = api.get_current_position("BTCUSDT")
 print(positions)
 ```
+---
+## New Methods Added in Version 1.1.0
+
+### Market Data
+- **`get_market_status(market)`**: Retrieve the market status for specified markets or all markets. 
+- **`get_market_transactions(market, limit, last_id)`**: Retrieve recent transaction records for a specific market.
+- **`get_market_index(market)`**: Retrieve the market index information for specified markets or all markets.
+
+### User Transactions
+- **`get_user_transactions(market, market_type, side, start_time, end_time, page, limit)`**: Retrieve user transaction records for a specific market. 
+- **`get_user_order_transactions(market, market_type, order_id, page, limit)`**: Retrieve transaction records for a specific user order.
+
+### Order Management
+- **`place_order(market, market_type, side, order_type, amount, price, ccy, client_id, is_hide, stp_mode)`**: Place an order in the spot or margin market.
+- **`place_stop_order(market, market_type, side, order_type, amount, trigger_price, price, ccy, client_id, is_hide, stp_mode)`**: Place a stop order in the spot or margin market.
+- **`batch_place_orders(orders)`**: Place multiple orders in batch.
+- **`batch_place_stop_orders(orders)`**: Place multiple stop orders in batch.
+- **`query_order_status(market, order_id)`**: Query the status of a specific order.
 
 ---
 
@@ -130,4 +186,4 @@ If you encounter issues or have questions, please open an issue on the [GitHub r
 ---
 
 ## Disclaimer
-This library is a third-party implementation and is not affiliated with or endorsed by CoinEx. Use at your own risk.
+This library is a third-party implementation and is not affiliated with or endorsed by Coinex. Use at your own risk.

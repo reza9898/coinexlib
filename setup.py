@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="coinexlib",  # Replace with your desired package name
-    version="1.0.0",  # Update version as needed
+    version="1.1.0",  # Update version as needed
     author="Reza Rizvandi",
     author_email="r.rizvandi@gmail.com",
     description="A Python library for interacting with the CoinEx API.",
